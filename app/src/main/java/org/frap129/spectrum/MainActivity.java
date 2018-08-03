@@ -26,17 +26,10 @@ import java.util.Objects;
 
 import eu.chainfire.libsuperuser.Shell;
 
-import static org.frap129.spectrum.Utils.KPM;
 import static org.frap129.spectrum.Utils.checkSupport;
-import static org.frap129.spectrum.Utils.cpuScalingGovernorPath;
-import static org.frap129.spectrum.Utils.finalGov;
 import static org.frap129.spectrum.Utils.getCustomDesc;
 import static org.frap129.spectrum.Utils.kernelProp;
-import static org.frap129.spectrum.Utils.kpmFinal;
-import static org.frap129.spectrum.Utils.kpmPath;
-import static org.frap129.spectrum.Utils.kpmPropPath;
 import static org.frap129.spectrum.Utils.listToString;
-import static org.frap129.spectrum.Utils.notTunedGov;
 import static org.frap129.spectrum.Utils.profileProp;
 import static org.frap129.spectrum.Utils.setProfile;
 
@@ -183,18 +176,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences profile = this.getSharedPreferences("profile", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = profile.edit();
 
-        if(KPM) {
-            suResult = Shell.SU.run(String.format("cat %s", kpmPath));
-        } else {
-            suResult = Shell.SU.run(String.format("getprop %s", profileProp));
-        }
+        suResult = Shell.SU.run(String.format("getprop %s", profileProp));
 
         if (suResult != null) {
             String result = listToString(suResult);
 
-            if(result.contains("-1")) {
-                // Default KPM value, just in case
-            } else if (result.contains("0")) {
+            if (result.contains("0")) {
                 CardView card0 = (CardView) findViewById(R.id.card0);
                 int balColor = ContextCompat.getColor(this, R.color.colorBalance);
                 card0.setCardBackgroundColor(balColor);
@@ -238,11 +225,7 @@ public class MainActivity extends AppCompatActivity {
         String balDesc;
         String kernel;
 
-        if(KPM){
-            suResult = Shell.SU.run(String.format("cat %s", kpmPropPath));
-        } else {
-            suResult = Shell.SU.run(String.format("getprop %s", kernelProp));
-        }
+        suResult = Shell.SU.run(String.format("getprop %s", kernelProp));
         kernel = listToString(suResult);
         if (kernel.isEmpty())
             return;
@@ -266,11 +249,6 @@ public class MainActivity extends AppCompatActivity {
             if (oldCard != null)
                 oldCard.setCardBackgroundColor(ogColor);
             setProfile(prof);
-            if (KPM) {
-                Shell.SU.run(String.format("echo %s > %s", notTunedGov, cpuScalingGovernorPath));
-                finalGov = listToString(Shell.SU.run(String.format("cat %s", kpmFinal)));
-                Shell.SU.run(String.format("echo %s > %s", finalGov, cpuScalingGovernorPath));
-            }
             oldCard = card;
             SharedPreferences profile = this.getSharedPreferences("profile", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = profile.edit();
