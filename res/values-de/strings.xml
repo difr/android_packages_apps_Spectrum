@@ -5,13 +5,18 @@
     <string name="prof0">Ausgeglichen</string>
     <string name="prof1">Leistung</string>
     <string name="prof2">Akku</string>
-    <string name="prof3">Spiele</string>
+
+    <!-- Support Strings -->
+    <string name="no_spectrum_support_dialog_title">No Spectrum support detected</string>
+    <string name="no_spectrum_support_dialog_message">Please contact your kernel dev and ask them to add Spectrum support</string>
+    <string name="no_root_detected_dialog_title">No root detected</string>
+    <string name="no_root_detected_dialog_message">Root access was not found or denied. Spectrum needs root to set profiles.</string>
+    <string name="custom_descriptions_fail_text">Storage permission denied, Couldn\'t look for custom descriptions</string>
 
     <!-- Profile Descriptions -->
     <string name="profdesc0">Das standardmäßige Electron-Profil, welches für seine gute Leistung bei einfachen Aufgaben bekannt ist und den Akku schont.</string>
     <string name="profdesc1">Optimiertes Profil für volle Leistung bei aufwendigeren Aufgaben. Weniger Limitierungen, dafür aber einen höheren Akkuverbrauch.</string>
     <string name="profdesc2">Sehr energiesparendes Profil, bei dem die Leistung komplett in den Hintergrund gestellt wird um den Akku möglichst lange am Leben zu erhalten.</string>
-    <string name="profdesc3">Zusätzliche 10 FPS nötig? Erwischt! Dieses Profil entfernt sämtliche Limitierungen für eine perfekte Grafik-Leistung.</string>
 
     <!-- Profile Loader -->
     <string name="aboutLoader">Hoppla!</string>

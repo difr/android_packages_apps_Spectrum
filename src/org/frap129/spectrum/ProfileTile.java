@@ -15,10 +15,6 @@ import java.util.Arrays;
 @TargetApi(Build.VERSION_CODES.N)
 public class ProfileTile extends TileService {
 
-    private static final String SERVICE_STATUS_FLAG = "serviceStatus";
-    private static final String PREFERENCES_KEY = "org.frap129.spectrum";
-    private boolean click = false;
-
     @Override
     public void onStartListening() {
         updateTile();
@@ -33,18 +29,14 @@ public class ProfileTile extends TileService {
         MultiProcessSharedPreferencesProvider.MultiProcessSharedPreferences profile =
                 MultiProcessSharedPreferencesProvider.getSharedPreferences(ProfileTile.this, "profile");
         SharedPreferences.Editor editor = profile.edit();
-        boolean isActive = getServiceStatus();
+        String curProfile = profile.getString("profile", "");
 
-        // Update tile and set profile
-        if (isActive && click) {
-            Utils.setProfile(3);
-            editor.putString("profile", "gaming");
-            editor.apply();
-        } else if (!isActive && click) {
+        // Set profile and update tile
+        if (curProfile.contains("performance")) {
             Utils.setProfile(2);
             editor.putString("profile", "battery");
             editor.apply();
-        } else if (isActive && !click){
+        } else if (curProfile.contains("balanced")) {
             Utils.setProfile(1);
             editor.putString("profile", "performance");
             editor.apply();
@@ -57,16 +49,6 @@ public class ProfileTile extends TileService {
         updateTile();
     }
 
-    private boolean getServiceStatus() {
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences(PREFERENCES_KEY, MODE_PRIVATE);
-        boolean isActive = prefs.getBoolean(SERVICE_STATUS_FLAG, false);
-        isActive = !isActive;
-
-        prefs.edit().putBoolean(SERVICE_STATUS_FLAG, isActive).apply();
-
-        return isActive;
-    }
-
     private void updateTile() {
         String profile = MultiProcessSharedPreferencesProvider
                 .getSharedPreferences(getApplicationContext(), "profile")
@@ -75,30 +57,20 @@ public class ProfileTile extends TileService {
         Icon newIcon;
         String newLabel;
         int newState = Tile.STATE_ACTIVE;
-        ArrayList<String> disabledProfilesList = new ArrayList<>();
-        disabledProfilesList.addAll(Arrays.asList(Utils.disabledProfiles().split(",")));
 
         // Update tile
-        if (profile.contains("gaming") && !disabledProfilesList.contains(profile)) {
-            newLabel = "Gaming";
-            newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.game);
-            click = false;
-        } else if (profile.contains("battery") && !disabledProfilesList.contains(profile)) {
-            newLabel = "Battery";
+        if (profile.contains("battery")) {
+            newLabel = getString(R.string.prof2);
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.battery);
-            click = true;
-        } else if (profile.contains("performance") && !disabledProfilesList.contains(profile)){
-            newLabel = "Performance";
+        } else if (profile.contains("performance")) {
+            newLabel = getString(R.string.prof1);
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.rocket);
-            click = true;
-        } else if (profile.contains("balanced") && !disabledProfilesList.contains(profile)) {
-            newLabel = "Balance";
+        } else if (profile.contains("balanced")) {
+            newLabel = getString(R.string.prof0);
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.atom);
-            click = false;
         } else {
             newLabel = "Custom";
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.ic_mono);
-            click = false;
         }
 
         // Change the UI of the tile.

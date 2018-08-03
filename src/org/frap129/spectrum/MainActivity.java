@@ -49,11 +49,9 @@ public class MainActivity extends AppCompatActivity {
         final CardView card0 = (CardView) findViewById(R.id.card0);
         final CardView card1 = (CardView) findViewById(R.id.card1);
         final CardView card2 = (CardView) findViewById(R.id.card2);
-        final CardView card3 = (CardView) findViewById(R.id.card3);
         final int balColor = ContextCompat.getColor(this, R.color.colorBalance);
         final int perColor = ContextCompat.getColor(this, R.color.colorPerformance);
         final int batColor = ContextCompat.getColor(this, R.color.colorBattery);
-        final int gamColor = ContextCompat.getColor(this, R.color.colorGaming);
 
         // Check for Spectrum Support
         if (!checkSupport(this)) {
@@ -95,27 +93,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        String disabledProfiles = Utils.disabledProfiles();
-        String[] profilesToDisable = disabledProfiles.split(",");
-        for (String profile : profilesToDisable){
-            switch (profile) {
-                case "balance":
-                    card0.setVisibility(View.GONE);
-                    break;
-                case "performance":
-                    card1.setVisibility(View.GONE);
-                    break;
-                case "battery":
-                    card2.setVisibility(View.GONE);
-                    break;
-                case "gaming":
-                    card3.setVisibility(View.GONE);
-                    break;
-                default:
-                    break;
-            }
-        }
-
         // Get profile descriptions
         getDesc();
 
@@ -126,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
         card0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            cardClick(card0, 0, balColor);
-                if (notaneasteregg == 1) {
+            cardClick(card0, 0, balColor, "balanced");
+                if (notaneasteregg == 0) {
                     notaneasteregg++;
                 } else {
                     notaneasteregg = 0;
@@ -138,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
         card1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cardClick(card1, 1, perColor);
-                if (notaneasteregg == 3) {
+                cardClick(card1, 1, perColor, "performance");
+                if (notaneasteregg == 2) {
                     Intent intent = new Intent(MainActivity.this, ProfileLoaderActivity.class);
                     startActivity(intent);
                     finish();
@@ -152,20 +129,12 @@ public class MainActivity extends AppCompatActivity {
         card2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cardClick(card2, 2, batColor);
-                if (notaneasteregg == 2) {
+                cardClick(card2, 2, batColor, "battery");
+                if (notaneasteregg == 1) {
                     notaneasteregg++;
                 } else {
                     notaneasteregg = 0;
                 }
-            }
-        });
-
-        card3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardClick(card3, 3, gamColor);
-                notaneasteregg = 1;
             }
         });
 
@@ -202,13 +171,6 @@ public class MainActivity extends AppCompatActivity {
                 oldCard = card2;
                 editor.putString("profile", "battery");
                 editor.apply();
-            } else if (result.contains("3")) {
-                CardView card3 = (CardView) findViewById(R.id.card3);
-                int gamColor = ContextCompat.getColor(this, R.color.colorGaming);
-                card3.setCardBackgroundColor(gamColor);
-                oldCard = card3;
-                editor.putString("profile", "gaming");
-                editor.apply();
             } else {
                 editor.putString("profile", "custom");
                 editor.apply();
@@ -221,28 +183,16 @@ public class MainActivity extends AppCompatActivity {
         TextView desc0 = (TextView) findViewById(R.id.desc0);
         TextView desc1 = (TextView) findViewById(R.id.desc1);
         TextView desc2 = (TextView) findViewById(R.id.desc2);
-        TextView desc3 = (TextView) findViewById(R.id.desc3);
-        String balDesc;
-        String kernel;
-
-        suResult = Shell.SU.run(String.format("getprop %s", kernelProp));
-        kernel = listToString(suResult);
-        if (kernel.isEmpty())
-            return;
-        balDesc = desc0.getText().toString();
-        balDesc = balDesc.replaceAll("\\bElectron\\b", kernel);
-        desc0.setText(balDesc);
 
         if (Utils.supportsCustomDesc()){
-            if(!Objects.equals(getCustomDesc("balance"), "fail")) desc0.setText(getCustomDesc("balance"));
+            if(!Objects.equals(getCustomDesc("balanced"), "fail")) desc0.setText(getCustomDesc("balanced"));
             if(!Objects.equals(getCustomDesc("performance"), "fail")) desc1.setText(getCustomDesc("performance"));
             if(!Objects.equals(getCustomDesc("battery"), "fail")) desc2.setText(getCustomDesc("battery"));
-            if(!Objects.equals(getCustomDesc("gaming"), "fail")) desc3.setText(getCustomDesc("gaming"));
         }
     }
 
     // Method that completes card onClick tasks
-    private void cardClick(CardView card, int prof, int color) {
+    private void cardClick(CardView card, int prof, int color, String profName) {
         if (oldCard != card) {
             ColorStateList ogColor = card.getCardBackgroundColor();
             card.setCardBackgroundColor(color);
@@ -252,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
             oldCard = card;
             SharedPreferences profile = this.getSharedPreferences("profile", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = profile.edit();
-            editor.putString("profile", String.valueOf(prof));
+            editor.putString("profile", profName);
             editor.apply();
         }
     }
@@ -301,4 +251,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-
