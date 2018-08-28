@@ -11,22 +11,11 @@
     <string name="no_spectrum_support_dialog_message">Пожалуйста свяжитесь с разработчиком ядра и попросите его добавить поддержку Spectrum.</string>
     <string name="no_root_detected_dialog_title">Доступ к суперпользователю не обнаружен</string>
     <string name="no_root_detected_dialog_message">Доступ к суперпользователю не найден или отклонен. Права суперпользователя необходимы Spectrum для применения профилей.</string>
-    <string name="custom_descriptions_fail_text">Нет прав доступа к хранилищу, невозможно прочитать модифицированные описания.</string>
 
     <!-- Profile Descriptions -->
     <string name="profdesc0">Профиль с достаточной для обычных задач производительностью и умеренным эноргопотреблением.</string>
     <string name="profdesc1">Профиль с акцентом на производительность и с несколько большим энергопотреблением.</string>
     <string name="profdesc2">Профиль с акцентом на энергосбережение с некоторым ущербом для производительности.</string>
-
-    <!-- Profile Loader -->
-    <string name="aboutLoader">Вау!</string>
-    <string name="loaderDesc">Вы нашли скрытый загрузчик профиля! Редкая удача.</string>
-    <string name="cancelText">Отмена</string>
-    <string name="confirmText">ОК</string>
-    <string name="profileConfirm">Вы уверены, что хотите загрузить этот файл?</string>
-    <string name="fileSelect">Выбрать файл</string>
-    <string name="bootText">Применять профиль при загрузке</string>
-    <string name="profileMenu">Загрузчик профиля</string>
 
     <!-- Profile Tile -->
     <string name="profileTile">Профиль</string>
