@@ -22,7 +22,7 @@ public class ProfileTile extends TileService {
     @Override
     public void onClick() {
         int newProf = curProf + 1;
-        if (newProf > 2) {
+        if (newProf > 1) {
             newProf = 0;
         }
         Utils.setProp(newProf);
@@ -33,6 +33,7 @@ public class ProfileTile extends TileService {
         Tile tile = this.getQsTile();
         Icon newIcon;
         String newLabel;
+        int newState = Tile.STATE_ACTIVE;
         String curProp;
         if (newProp.isEmpty()) {
             curProp = Utils.getProp();
@@ -40,22 +41,24 @@ public class ProfileTile extends TileService {
             curProp = newProp;
         }
         int oldProf = curProf;
-        if (curProp.contains("2")) {
-            curProf = 2;
-            newLabel = getString(R.string.prof2);
+        if (curProp.contains("0")) {
+            curProf = 0;
+            newLabel = getString(R.string.prof0);
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.battery);
         } else if (curProp.contains("1")) {
             curProf = 1;
             newLabel = getString(R.string.prof1);
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.rocket);
         } else {
-            curProf = 0;
-            newLabel = getString(R.string.prof0);
-            newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.atom);
+            curProf = 2;
+            newLabel = getString(R.string.prof1);
+            newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.rocket);
+            newState = Tile.STATE_INACTIVE;
         }
         if (oldProf != curProf) {
             tile.setLabel(newLabel);
             tile.setIcon(newIcon);
+            tile.setState(newState);
             tile.updateTile();
         }
     }

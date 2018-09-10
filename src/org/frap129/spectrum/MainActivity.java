@@ -21,7 +21,7 @@ import static org.frap129.spectrum.Utils.setProp;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CardView oldCard;
+    private CardView curCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +31,8 @@ public class MainActivity extends AppCompatActivity {
         // Define existing CardViews
         final CardView card0 = (CardView) findViewById(R.id.card0);
         final CardView card1 = (CardView) findViewById(R.id.card1);
-        final CardView card2 = (CardView) findViewById(R.id.card2);
-        final int balColor = ContextCompat.getColor(this, R.color.colorBalance);
-        final int perColor = ContextCompat.getColor(this, R.color.colorPerformance);
         final int batColor = ContextCompat.getColor(this, R.color.colorBattery);
+        final int perColor = ContextCompat.getColor(this, R.color.colorPerformance);
 
         // Check for Spectrum Support
         if (!Utils.checkSupport(this)) {
@@ -52,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                     .show();
             return;
         }
-
         // Ensure root access
         if (!Utils.checkSU()) {
             new AlertDialog.Builder(this)
@@ -77,58 +74,44 @@ public class MainActivity extends AppCompatActivity {
         card0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cardClick(card0, 0, balColor);
+                cardClick(card0, 0, batColor);
             }
         });
-
         card1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cardClick(card1, 1, perColor);
             }
         });
-
-        card2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardClick(card2, 2, batColor);
-            }
-        });
-
     }
 
     // Method that detects the selected profile on launch
     private void initSelected() {
-
         String curProp = Utils.getProp();
-
         if (curProp.contains("0")) {
             CardView card0 = (CardView) findViewById(R.id.card0);
-            int balColor = ContextCompat.getColor(this, R.color.colorBalance);
-            card0.setCardBackgroundColor(balColor);
-            oldCard = card0;
+            int batColor = ContextCompat.getColor(this, R.color.colorBattery);
+            card0.setCardBackgroundColor(batColor);
+            curCard = card0;
         } else if (curProp.contains("1")) {
             CardView card1 = (CardView) findViewById(R.id.card1);
             int perColor = ContextCompat.getColor(this, R.color.colorPerformance);
             card1.setCardBackgroundColor(perColor);
-            oldCard = card1;
-        } else if (curProp.contains("2")) {
-            CardView card2 = (CardView) findViewById(R.id.card2);
-            int batColor = ContextCompat.getColor(this, R.color.colorBattery);
-            card2.setCardBackgroundColor(batColor);
-            oldCard = card2;
+            curCard = card1;
+        } else {
+            curCard = null;
         }
     }
 
     // Method that completes card onClick tasks
-    private void cardClick(CardView card, int prof, int color) {
-        if (oldCard != card) {
-            ColorStateList ogColor = card.getCardBackgroundColor();
-            card.setCardBackgroundColor(color);
-            if (oldCard != null)
-                oldCard.setCardBackgroundColor(ogColor);
+    private void cardClick(CardView newCard, int prof, int color) {
+        if (curCard != newCard) {
+            ColorStateList ogColor = newCard.getCardBackgroundColor();
+            newCard.setCardBackgroundColor(color);
+            if (curCard != null)
+                curCard.setCardBackgroundColor(ogColor);
             Utils.setProp(prof);
-            oldCard = card;
+            curCard = newCard;
         }
     }
 

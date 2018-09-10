@@ -2,9 +2,8 @@
     <string name="app_name">Spectrum</string>
 
     <!-- Profile Names -->
-    <string name="prof0">Сбалансированный</string>
+    <string name="prof0">Энергосберегающий</string>
     <string name="prof1">Производительный</string>
-    <string name="prof2">Энергосберегающий</string>
 
     <!-- Support Strings -->
     <string name="no_spectrum_support_dialog_title">Поддержка Spectrum не обнаружена</string>
@@ -13,9 +12,8 @@
     <string name="no_root_detected_dialog_message">Доступ к суперпользователю не найден или отклонен. Права суперпользователя необходимы Spectrum для применения профилей.</string>
 
     <!-- Profile Descriptions -->
-    <string name="profdesc0">Профиль с достаточной для обычных задач производительностью и умеренным эноргопотреблением.</string>
+    <string name="profdesc0">Профиль по умолчанию, с достаточной для обычных задач производительностью и умеренным эноргопотреблением.</string>
     <string name="profdesc1">Профиль с акцентом на производительность и с несколько большим энергопотреблением.</string>
-    <string name="profdesc2">Профиль с акцентом на энергосбережение с некоторым ущербом для производительности.</string>
 
     <!-- Profile Tile -->
     <string name="profileTile">Профиль</string>
