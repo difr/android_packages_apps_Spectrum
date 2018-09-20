@@ -45,7 +45,8 @@
 #$(call add-clean-step, rm -rf $(PRODUCT_OUT)/data/*)
 
 $(call add-clean-step, rm -rf $(OUT_DIR)/target/common/obj/APPS/Spectrum_intermediates)
-$(call add-clean-step, rm -rf $(PRODUCT_OUT)/system/app/Spectrum.apk)
+$(call add-clean-step, rm -rf $(PRODUCT_OUT)/system/app/Spectrum)
+$(call add-clean-step, rm -rf $(PRODUCT_OUT)/system/etc/init/spectrum.*)
 
 # ************************************************
 # NEWER CLEAN STEPS MUST BE AT THE END OF THE LIST

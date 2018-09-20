@@ -1,0 +1,14 @@
+# SPECTRUM PROFILE MANAGER
+
+# Initialization
+# Set Spectrum default profile
+on property:sys.post_boot.parsed=1
+  setprop spectrum.profile 0
+
+# Battery (default profile)
+on property:spectrum.profile=0
+#  write ...
+
+# Performance
+on property:spectrum.profile=1
+#  write ...

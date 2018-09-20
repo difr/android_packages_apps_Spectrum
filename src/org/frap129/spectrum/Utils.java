@@ -1,37 +1,18 @@
 package org.frap129.spectrum;
 
-import android.content.Context;
-
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
 
 class Utils {
 
-    public static String profileProp = "persist.spectrum.profile";
+    private static Boolean useShellSU = false;
 
-    public static String kernelProp = "persist.spectrum.kernel";
-
-    // Method to check if kernel supports
-    public static boolean checkSupport(final Context context) {
-        List<String> shResult;
-        String supportProp = "spectrum.support";
-        shResult = Shell.SH.run(String.format("getprop %s", supportProp));
-        String support = listToString(shResult);
-
-        return !support.isEmpty();
-    }
-
-    // Method to check if the device is rooted
-    public static boolean checkSU() {
-        return Shell.SU.available();
-    }
+    public static String profileProp = "spectrum.profile";
 
     // Method that gets system property
     public static String getProp() {
-        List<String> shResult;
-        shResult = Shell.SH.run(String.format("getprop %s", profileProp));
-        return listToString(shResult);
+        return listToString(Shell.SH.run(String.format("getprop %s", profileProp)));
     }
 
     // Method that sets system property
@@ -39,7 +20,14 @@ class Utils {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Shell.SU.run(String.format("setprop %s %s", profileProp, profile));
+                String shResult;
+                if (!useShellSU) {
+                    shResult = listToString(Shell.SH.run(String.format("setprop %s %s >/dev/null 2>&1; echo $?", profileProp, profile)));
+                    useShellSU = !shResult.equals("0");
+                }
+                if (useShellSU) {
+                    Shell.SU.run(String.format("setprop %s %s", profileProp, profile));
+                }
             }
         }).start();
     }

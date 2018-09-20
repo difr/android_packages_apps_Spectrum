@@ -1,10 +1,10 @@
 package org.frap129.spectrum;
 
 import android.annotation.TargetApi;
-import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
+import android.graphics.drawable.Icon;
 
 import static org.frap129.spectrum.Utils.getProp;
 import static org.frap129.spectrum.Utils.setProp;
@@ -41,11 +41,11 @@ public class ProfileTile extends TileService {
             curProp = newProp;
         }
         int oldProf = curProf;
-        if (curProp.contains("0")) {
+        if (curProp.equals("0")) {
             curProf = 0;
             newLabel = getString(R.string.prof0);
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.battery);
-        } else if (curProp.contains("1")) {
+        } else if (curProp.equals("1")) {
             curProf = 1;
             newLabel = getString(R.string.prof1);
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.rocket);

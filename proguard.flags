@@ -1,7 +1,0 @@
--dontwarn
--keepattributes *Annotation*
--keep class android.support.design.widget.** { *; }
--keep class android.support.v7.widget.RecyclerView { *; }
--keep class  android.support.transition.AutoTransition { *; }
--keep class android.support.design.internal.NavigationMenuView { *; }
--keep public class * extends android.support.v7.widget.CardView { *; }

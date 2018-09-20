@@ -12,7 +12,7 @@ public class ScreenReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
-            //if (!Utils.getProp().contains("0")) {
+            //if (!Utils.getProp().equals("0")) {
                 Utils.setProp(0);
             //}
         }
