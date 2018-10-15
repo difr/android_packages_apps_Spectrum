@@ -51,8 +51,8 @@ public class ProfileTile extends TileService {
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.rocket);
         } else {
             curProf = 2;
-            newLabel = getString(R.string.prof1);
-            newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.rocket);
+            newLabel = getString(R.string.profile);
+            newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.profile);
             newState = Tile.STATE_INACTIVE;
         }
         if (oldProf != curProf) {
